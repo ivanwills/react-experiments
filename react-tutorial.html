@@ -1,0 +1,72 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>React - Tutorial</title>
+    <link rel="stylesheet" href="bower_components/foundation/css/foundation.css" />
+    <script src="bower_components/foundation/js/vendor/modernizr.js"></script>
+</head>
+
+<body>
+
+    <div class="row">
+        <div class="large-12 columns">
+            <h1>React Tutorial - Comment Box</h1>
+            <p>Enhanced with an ExpressJS endpoint, and Foundation5!.</p>
+        </div>
+    </div>
+
+    <!-- Where we'll render into -->
+    <div class="row">
+        <div class="large-12 columns">
+            <div id="container"></div>
+        </div>
+    </div>
+
+    <!-- JavaScript libraries -->
+    <script src="bower_components/foundation/js/vendor/jquery.js"></script>
+    <script src="bower_components/foundation/js/foundation.min.js"></script>
+    <script src="bower_components/showdown/compressed/showdown.js"></script>
+    <script src="bower_components/react/react.min.js"></script>
+
+    <!-- Application components. A build step would be nice here. -->
+    <script src="build/react-tutorial/CommentBox.js"></script>
+    <script src="build/react-tutorial/CommentList.js"></script>
+    <script src="build/react-tutorial/Comment.js"></script>
+    <script src="build/react-tutorial/CommentForm.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script type="text/javascript">
+
+        // Main application JS code. Wire everything up.
+
+        // Markdown parser.
+        var converter = new Showdown.converter();
+
+        console.time('reactRender');
+
+        React.renderComponent(
+            CommentBox({
+                formTitle: 'Have your say!',
+                listTitle: 'User Comments',
+                source: 'data/comments.json',
+                target: '/addComment'
+                // Polling sucks. Websockets? Slower polling?
+                //pollInterval: 1000
+            }),
+            document.getElementById('container')
+        );
+
+        console.timeEnd('reactRender');
+
+        // Now bind foundation stuff?
+        // What about DOM replacement? Need to hook into components also.
+        $(document).foundation();
+
+    </script>
+
+</body>
+
+</html>
